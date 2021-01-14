@@ -22,14 +22,12 @@ var fiveDay = [
     ];
 
 
-
-var weatherToday = function(Obj) {
-    debugger;
+// creates the curent weather section from returned JSON objects
+var createCurrentEl = function(Obj) {
     var results = document.querySelector('.results');
-    console.log(results);
+    
     var currentWeatherEl = document.createElement('div');
     currentWeatherEl.className = 'current-weather';
-    console.log(currentWeatherEl);
     
     var city = document.createElement('h2');
     city.textContent = Obj.city + " (" + Obj.date + ")";
@@ -39,9 +37,8 @@ var weatherToday = function(Obj) {
     results.appendChild(currentWeatherEl);
     console.log(results);
     
-    // for loop not working
+    
     for (var i = 0; i < 4; i++) {
-        debugger;
         let item = document.createElement('p');
         console.log(item);
         item.textContent = weatherItems[i] + ": " + Obj[objKeys[i]];
@@ -50,6 +47,22 @@ var weatherToday = function(Obj) {
     }
     
 };
+
+var createFiveDayEl = function (fiveDay) {
+    var results = document.querySelector('.results');
+    var fiveDayForecast = document.createElement('div');
+    fiveDayForecast.className = 'five-day'
+    fiveDayForecast.innerHTML = "<h2>5-Day Forecast:</h2><div class='card-container'><div>"
+    results.appendChild(fiveDayForecast);
+    var cardContainer = document.querySelector('.card-container');
+    
+    for (var i = 0; i < 5; i++) {
+        let card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = "<h3>" + fiveDay[i].date + "</h3><p>" + fiveDay[i].icon + "</p><p>Temp: " + fiveDay[i].temp + "°C</p><p>Humidity: " + fiveDay[i].humid + "</p>";
+        cardContainer.appendChild(card);
+    }
+}
 
 var  searchHandler = function(event) {
     
