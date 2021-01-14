@@ -40,13 +40,13 @@ var weatherToday = function(Obj) {
     console.log(results);
     
     // for loop not working
-    for (var i = 0; i < Obj.length; i++) {
+    for (var i = 0; i < 4; i++) {
         debugger;
         let item = document.createElement('p');
         console.log(item);
         item.textContent = weatherItems[i] + ": " + Obj[objKeys[i]];
         console.log(item);
-        results.appendChild(item);
+        currentWeatherEl.appendChild(item);
     }
     
 };
