@@ -55,7 +55,7 @@ main {
     flex-direction: column;
     width: 67%;
     padding: 20px 20px;
-    align-content: flex-end;
+    align-content: flex-start;
 }
 
 .current-weather {

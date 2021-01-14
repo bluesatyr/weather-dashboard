@@ -1,3 +1,25 @@
+var locApiUrl = "http://api.openweathermap.org/data/2.5/weather?q="
+var oneCallUrl = "https://api.openweathermap.org/data/2.5/onecall?";
+
+var apiKey = "587e6a88adff4eb1878a93d9f751bd59";
+var previousCities = JSON.parse(localStorage.getItem('cities')); //check syntax
+
+if (previousCities) {
+    for (var i = 0; i < previousCities.length; i++) {
+        var city = document.createElement('li');
+        city.textContent = previousCities[i];
+    }
+}
+
+/* 
+api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
+
+https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}   **&units=metric  **&exclude=minutely,hourly,alerts
+
+var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+
+*/
+
 // variables in place of fetch() call
 var weatherObject = {
     city: "Toronto",
@@ -22,7 +44,7 @@ var fiveDay = [
     ];
 
 
-// creates the curent weather section from returned JSON objects
+// creates the curent weather section from returned JSON object(s)
 var createCurrentEl = function(Obj) {
     var results = document.querySelector('.results');
     
@@ -48,6 +70,7 @@ var createCurrentEl = function(Obj) {
     
 };
 
+// creates the five day forcast section from returned JSON object(s)
 var createFiveDayEl = function (fiveDay) {
     var results = document.querySelector('.results');
     var fiveDayForecast = document.createElement('div');
@@ -64,8 +87,37 @@ var createFiveDayEl = function (fiveDay) {
     }
 }
 
-var  searchHandler = function(event) {
+// search function which calls the api
+var search = function (location) {
     
+};
+
+
+var getWeather = function (city) {
+    var firstUrl = locApiUrl + city + '&units=metric&appid=' + apiKey;
+    console.log(firstUrl);
+    fetch(firstUrl)
+        .then(function(res) {
+            return res.json();
+        })
+        .then(function (res){
+            var long = res.coord.lon;
+            console.log(long);
+            var lat = res.coord.lat;
+            console.log(lat);
+            var nextUrl = oneCallUrl + "lat=" + lat + "&lon=" + long + "&exclude=minutely,hourly,alerts&appid=" + apiKey;
+            console.log(nextUrl);
+        })
+}
+
+var  searchHandler = function(event) {
+    event.preventDefault();
+    var cityInput = document.querySelector('#search-input').value;
+    var city = cityInput.trim();
+    console.log(city);
+    
+    //fetch call
+    getWeather(city);
 }
 
 document.querySelector('.search').addEventListener('click', searchHandler);
