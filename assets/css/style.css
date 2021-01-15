@@ -1,10 +1,16 @@
-/* blue: #007BFF */
-
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+:root {
+    --low: #299501;
+    --moderate: #F7E401;
+    --high: #F95901;
+    --very-high: #D90011;
+    --extreme: #6C49CB;
 }
 
 body {
@@ -94,3 +100,22 @@ main {
     justify-content: space-between;
 }
 
+.uv-low {
+    background-color: var(--low);
+}
+
+.uv-mod {
+    background-color: var(--moderate);
+}
+
+.uv-high {
+    background-color: var(--high);
+}
+
+.uv-very-high {
+    background-color: var(--very-high);
+}
+
+.uv-extreme {
+    background-color: var(--extreme);
+}

@@ -1,5 +1,6 @@
 var locApiUrl = "http://api.openweathermap.org/data/2.5/weather?q="
 var oneCallUrl = "https://api.openweathermap.org/data/2.5/onecall?";
+var city = "";
 
 var apiKey = "587e6a88adff4eb1878a93d9f751bd59";
 var previousCities = JSON.parse(localStorage.getItem('cities')); //check syntax
@@ -17,6 +18,7 @@ api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
 https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}   **&units=metric  **&exclude=minutely,hourly,alerts
 
 var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+var iconcode = data.current.weather.icon;
 
 */
 
@@ -45,6 +47,7 @@ var fiveDay = [
 
 
 // creates the curent weather section from returned JSON object(s)
+// uv index info: https://19january2017snapshot.epa.gov/sunsafety/uv-index-scale-1_.html
 var createCurrentEl = function(Obj) {
     var results = document.querySelector('.results');
     
@@ -67,6 +70,8 @@ var createCurrentEl = function(Obj) {
         console.log(item);
         currentWeatherEl.appendChild(item);
     }
+    
+    
     
 };
 
@@ -107,13 +112,29 @@ var getWeather = function (city) {
             console.log(lat);
             var nextUrl = oneCallUrl + "lat=" + lat + "&lon=" + long + "&exclude=minutely,hourly,alerts&appid=" + apiKey;
             console.log(nextUrl);
+            return fetch(nextUrl)
+        })
+        .then(function(data) {
+            return data.json();
+        })
+        .then(function(data) {
+            // createCurrentEl(data);
+            // createFiveDayEl(data);
+            var currentTemp = (data.current.temp - 273.15);
+            var temp = currentTemp.toFixed(1);
+            console.log(city);
+            console.log(data.current.dt);
+            console.log(temp);
+            console.log(data.current.humidity);
+            console.log(data.current.wind_speed);
+            console.log(data.current.uvi);
         })
 }
 
 var  searchHandler = function(event) {
     event.preventDefault();
     var cityInput = document.querySelector('#search-input').value;
-    var city = cityInput.trim();
+    city = cityInput.toLowerCase().trim();
     console.log(city);
     
     //fetch call
