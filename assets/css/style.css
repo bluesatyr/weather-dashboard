@@ -75,6 +75,10 @@ main {
     margin: 10px;
 }
 
+.current-weather p {
+    margin-bottom: 10px;
+}
+
 .capitalize {
     text-transform: capitalize;
 }
@@ -104,12 +108,24 @@ main {
     justify-content: space-between;
 }
 
+.weather-icon {
+    height: 150px;
+    width: 80px;
+}
+
+#uvi {
+    padding: 3px;
+    border-radius: 5px;
+    color: white;
+}
+
 .uv-low {
     background-color: var(--low);
 }
 
 .uv-mod {
     background-color: var(--moderate);
+    color: black;
 }
 
 .uv-high {

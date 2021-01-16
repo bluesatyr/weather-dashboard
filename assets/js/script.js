@@ -33,24 +33,13 @@ var saveCities = function(cities){
 
 
 /* 
-api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
-
-https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}   **&units=metric  **&exclude=minutely,hourly,alerts
 
 var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
 var iconcode = data.current.weather.icon;
 
 */
 
-/* variables in place of fetch() call
-var weatherObject = {
-    city: "Toronto",
-    date: "1/14/21",
-    tempC: "10",
-    humid: "40%",
-    windSpeed: "20 KPH",
-    uvIndex: "8.0",
-} */
+
 
 var weatherItems = ["Temperature",  "Humidity", "Wind Speed", "UV Index"];
 var objKeys = ["tempC", "humid", "windSpeed", "uvIndex"];
@@ -70,7 +59,7 @@ var fiveDay = [
 
 // uv index info: https://19january2017snapshot.epa.gov/sunsafety/uv-index-scale-1_.html
 
-var createCurrentEl = function(Obj) {
+/* var createCurrentEl = function(Obj) {
     var results = document.querySelector('.results');
     
     var currentWeatherEl = document.createElement('div');
@@ -85,16 +74,42 @@ var createCurrentEl = function(Obj) {
     results.appendChild(currentWeatherEl);
     console.log(results);
     
-    
     for (var i = 0; i < 4; i++) {
         let item = document.createElement('p');
         console.log(item);
         item.textContent = weatherItems[i] + ": " + Obj[objKeys[i]];
         console.log(item);
         currentWeatherEl.appendChild(item);
+    } 
+};  */
+ 
+var uvColor = function(uvi) {
+    var uviEl = document.querySelector('#uvi');
+    if (uvi > 0 && uvi < 3) {
+        uviEl.className = 'uv-low';
+    } else if (uvi >= 3 && uvi < 6) {
+        uviEl.className = 'uv-mod';
+    } else if (uvi >= 6 && uvi < 8) {
+        uviEl.className = 'uv-high';
+    } else if (uvi >= 8 && uvi < 11) {
+        uviEl.className = 'uv-very-high';
+    } else if (uvi > 11) {
+        uviEl.className = 'uv-extreme';
     }
+};
+
+
+// remember to create iconcode in weather object
+var createCurrentEl = function(Obj) {
+    var results = document.querySelector('.results');
+    results.innerHTML = "";
     
+    var currentWeatherEl = document.createElement('div');
+    currentWeatherEl.className = 'current-weather';
+    currentWeatherEl.innerHTML = "<h2 class='capitalize'>" + Obj.city + " (" + Obj.date + ")</h2><img src='http://openweathermap.org/img/w/" + Obj.iconcode + ".png' class='weather-icon' /><p>Temperature: " + Obj.tempC + "°C</p><p>Humidity :" + Obj.humid + "%</p><p>Wind Speed: " + Obj.windSpeed + "kph</p><p>UV Index : <span id='uvi'>" + Obj.uvIndex + "</span></p>";
+    results.appendChild(currentWeatherEl);
     
+    uvColor(Obj.uvIndex);
     
 };
 
@@ -151,12 +166,14 @@ var getWeather = function (city) {
             console.log(timeZone);
             var currentDate = moment(currentTime + timeZone);
             var formattedDate = currentDate.format('M/DD/YYYY');
-            
+            var wIcon = data.current.weather[0].icon;
+            console.log(wIcon);
         
                                 
             var weatherObj = {
                 city: city,
                 date: formattedDate,
+                iconcode: wIcon,
                 tempC: temp,
                 humid: data.current.humidity,
                 windSpeed: data.current.wind_speed,
@@ -165,12 +182,6 @@ var getWeather = function (city) {
         
             console.log(weatherObj);
             createCurrentEl(weatherObj);
-            
-            /* console.log(data.current.dt);
-            console.log(temp);
-            console.log(data.current.humidity);
-            console.log(data.current.wind_speed);
-            console.log(data.current.uvi); */
         })
 }
 
