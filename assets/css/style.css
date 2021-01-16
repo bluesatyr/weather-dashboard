@@ -43,16 +43,53 @@ main {
     padding: 20px 20px;
 }
 
+.search {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.search label {
+    width: 100%;
+}
+
+.search input {
+    flex: 2;
+}
+
+.search .btn {
+    flex: 1;
+}
+
 .search label, .search input, .search .btn {
     height: 30px;
     font-size: 24px;
     margin-top: 10px;
 }
 
+#search-input {
+    width: 80%;
+}
+
 .btn {
     background-color: #007BFF;
     color: white;
     border-radius: 10px;
+}
+
+.previous {
+    list-style: none;
+    width: 200px;
+    height: 40px;
+    padding: 15px;
+    border: 2px solid black;
+    margin-top: 5px;
+    border-radius: 5px; 
+}
+
+.previous:hover {
+    background-color: #007BFF;
+    color: white;
 }
 
 .col-2 {
@@ -130,6 +167,7 @@ main {
 
 .uv-mod {
     background-color: var(--moderate);
+    font-weight: bold;
 }
 
 .uv-high {
