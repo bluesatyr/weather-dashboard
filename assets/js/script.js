@@ -3,14 +3,34 @@ var oneCallUrl = "https://api.openweathermap.org/data/2.5/onecall?";
 var city = "";
 
 var apiKey = "587e6a88adff4eb1878a93d9f751bd59";
-var previousCities = JSON.parse(localStorage.getItem('cities')); //check syntax
-
-if (previousCities) {
-    for (var i = 0; i < previousCities.length; i++) {
+var previousCities = ["toronto", "london", "sydney", "tokyo"];
+    
+var getPreviousCities = function () {
+    // city list ul element
+    var cityList = document.querySelector('.city-list');
+    // get cities as array from localStorage
+    var citiesArray = localStorage.getItem('cities');
+    previousCities = JSON.parse(citiesArray);
+    
+    // creates a list of previous cities: most recent first
+    for (var i = previousCities.length - 1; i > -1 ; i--) {
+        console.log(previousCities[i])
         var city = document.createElement('li');
         city.textContent = previousCities[i];
-    }
+        cityList.appendChild(city);
+    }; 
+};
+
+var saveCities = function(cities){
+    if (cities.length > 10) {
+        citiesities.shift();
+    };
+    localStorage.setItem('cities', JSON.stringify(cities));      
 }
+
+
+
+
 
 /* 
 api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
@@ -22,7 +42,7 @@ var iconcode = data.current.weather.icon;
 
 */
 
-// variables in place of fetch() call
+/* variables in place of fetch() call
 var weatherObject = {
     city: "Toronto",
     date: "1/14/21",
@@ -30,7 +50,7 @@ var weatherObject = {
     humid: "40%",
     windSpeed: "20 KPH",
     uvIndex: "8.0",
-}
+} */
 
 var weatherItems = ["Temperature",  "Humidity", "Wind Speed", "UV Index"];
 var objKeys = ["tempC", "humid", "windSpeed", "uvIndex"];
@@ -47,14 +67,17 @@ var fiveDay = [
 
 
 // creates the curent weather section from returned JSON object(s)
+
 // uv index info: https://19january2017snapshot.epa.gov/sunsafety/uv-index-scale-1_.html
+
 var createCurrentEl = function(Obj) {
     var results = document.querySelector('.results');
     
     var currentWeatherEl = document.createElement('div');
     currentWeatherEl.className = 'current-weather';
     
-    var city = document.createElement('h2');
+    var city = document.createElement('h2'); // use text-transform: capitalize; in css
+    city.className = 'capitalize'
     city.textContent = Obj.city + " (" + Obj.date + ")";
     console.log(city);
     
@@ -122,23 +145,48 @@ var getWeather = function (city) {
             // createFiveDayEl(data);
             var currentTemp = (data.current.temp - 273.15);
             var temp = currentTemp.toFixed(1);
-            console.log(city);
-            console.log(data.current.dt);
+            var currentTime = data.current.dt * 1000;
+            var timeZone = data.timezone_offset * 1000;
+            console.log(currentTime);
+            console.log(timeZone);
+            var currentDate = moment(currentTime + timeZone);
+            var formattedDate = currentDate.format('M/DD/YYYY');
+            
+        
+                                
+            var weatherObj = {
+                city: city,
+                date: formattedDate,
+                tempC: temp,
+                humid: data.current.humidity,
+                windSpeed: data.current.wind_speed,
+                uvIndex: data.current.uvi
+            };
+        
+            console.log(weatherObj);
+            createCurrentEl(weatherObj);
+            
+            /* console.log(data.current.dt);
             console.log(temp);
             console.log(data.current.humidity);
             console.log(data.current.wind_speed);
-            console.log(data.current.uvi);
+            console.log(data.current.uvi); */
         })
 }
 
-var  searchHandler = function(event) {
+
+
+
+
+var searchHandler = function(event) {
     event.preventDefault();
     var cityInput = document.querySelector('#search-input').value;
     city = cityInput.toLowerCase().trim();
     console.log(city);
-    
-    //fetch call
+    previousCities.push(city);
+    saveCities(previousCities);
     getWeather(city);
+    cityInput.textContent = "";
 }
 
-document.querySelector('.search').addEventListener('click', searchHandler);
+document.querySelector('#search-btn').addEventListener('click', searchHandler);
