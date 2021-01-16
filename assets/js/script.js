@@ -174,7 +174,14 @@ var searchHandler = function(event) {
     getWeather(city);
 };
 
+var previousSearch = function(event){
+    var cityEl = event.target.closest('li');
+    var city = cityEl.textContent;
+    getWeather(city);
+}
+
 getPreviousCities();
 
 // event handlers
+document.querySelector('.city-list').addEventListener('click', previousSearch);
 document.querySelector('#search-btn').addEventListener('click', searchHandler);
