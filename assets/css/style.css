@@ -56,7 +56,7 @@ main {
 }
 
 .col-2 {
-    background-color: #F8F9FA;
+    background-color: #FFFFFF;
     display: flex;
     flex-direction: column;
     width: 67%;
@@ -77,6 +77,12 @@ main {
 
 .current-weather p {
     margin-bottom: 10px;
+}
+
+.title {
+    display: flex;
+    flex-direction: row;
+    vertical-align: text-top;
 }
 
 .capitalize {
@@ -109,33 +115,34 @@ main {
 }
 
 .weather-icon {
-    height: 150px;
-    width: 80px;
+    width: 50px;
 }
 
 #uvi {
     padding: 3px;
     border-radius: 5px;
-    color: white;
 }
 
 .uv-low {
     background-color: var(--low);
+    color: white;
 }
 
 .uv-mod {
     background-color: var(--moderate);
-    color: black;
 }
 
 .uv-high {
     background-color: var(--high);
+    color: white;
 }
 
 .uv-very-high {
     background-color: var(--very-high);
+    color: white;
 }
 
 .uv-extreme {
     background-color: var(--extreme);
+    color: white;
 }

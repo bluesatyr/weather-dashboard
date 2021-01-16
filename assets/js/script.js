@@ -55,6 +55,29 @@ var fiveDay = [
     ];
 
 
+var createFiveDayArray = function (data) {
+    var forecastArray = [];
+    for (var i = 0; i < 5; i++) {
+        var maxTemp = (data.daily[i].temp.max - 273.15);
+        var temp = maxTemp.toFixed(1);
+        var dayTime = data.daily[i].dt * 1000;
+        var timeZone = data.timezone_offset * 1000;
+        var dayDate = moment(dayTime + timeZone);
+        var formattedDate = dayDate.format('M/DD/YYYY');
+        console.log(data.daily[i].weather[0].icon);
+        var day = {
+            date: formattedDate,
+            icon: data.daily[i].weather[0].icon,
+            temp: temp,
+            humid: data.daily[i].humidity
+        };
+        
+        forecastArray.push(day);
+    };
+    console.log(forecastArray);
+    return forecastArray;
+}
+
 // creates the curent weather section from returned JSON object(s)
 
 // uv index info: https://19january2017snapshot.epa.gov/sunsafety/uv-index-scale-1_.html
@@ -106,11 +129,10 @@ var createCurrentEl = function(Obj) {
     
     var currentWeatherEl = document.createElement('div');
     currentWeatherEl.className = 'current-weather';
-    currentWeatherEl.innerHTML = "<h2 class='capitalize'>" + Obj.city + " (" + Obj.date + ")</h2><img src='http://openweathermap.org/img/w/" + Obj.iconcode + ".png' class='weather-icon' /><p>Temperature: " + Obj.tempC + "°C</p><p>Humidity :" + Obj.humid + "%</p><p>Wind Speed: " + Obj.windSpeed + "kph</p><p>UV Index : <span id='uvi'>" + Obj.uvIndex + "</span></p>";
+    currentWeatherEl.innerHTML = "<div class='title'><h2 class='capitalize'>" + Obj.city + " (" + Obj.date + ")</h2><img src='http://openweathermap.org/img/w/" + Obj.iconcode + ".png' class='weather-icon' /></div><p>Temperature: " + Obj.tempC + "°C</p><p>Humidity :" + Obj.humid + "%</p><p>Wind Speed: " + Obj.windSpeed + "kph</p><p>UV Index : <span id='uvi'>" + Obj.uvIndex + "</span></p>";
     results.appendChild(currentWeatherEl);
     
     uvColor(Obj.uvIndex);
-    
 };
 
 // creates the five day forcast section from returned JSON object(s)
@@ -125,10 +147,10 @@ var createFiveDayEl = function (fiveDay) {
     for (var i = 0; i < 5; i++) {
         let card = document.createElement('div');
         card.className = 'card';
-        card.innerHTML = "<h3>" + fiveDay[i].date + "</h3><p>" + fiveDay[i].icon + "</p><p>Temp: " + fiveDay[i].temp + "°C</p><p>Humidity: " + fiveDay[i].humid + "</p>";
+        card.innerHTML = "<h3>" + fiveDay[i].date + "</h3><p><img src='http://openweathermap.org/img/w/" + fiveDay[i].icon + ".png' class='weather-icon' /></p><p>Temp: " + fiveDay[i].temp + "°C</p><p>Humidity: " + fiveDay[i].humid + "%</p>";
         cardContainer.appendChild(card);
     }
-}
+};
 
 // search function which calls the api
 var search = function (location) {
@@ -162,14 +184,11 @@ var getWeather = function (city) {
             var temp = currentTemp.toFixed(1);
             var currentTime = data.current.dt * 1000;
             var timeZone = data.timezone_offset * 1000;
-            console.log(currentTime);
-            console.log(timeZone);
+            
             var currentDate = moment(currentTime + timeZone);
             var formattedDate = currentDate.format('M/DD/YYYY');
             var wIcon = data.current.weather[0].icon;
-            console.log(wIcon);
-        
-                                
+                   
             var weatherObj = {
                 city: city,
                 date: formattedDate,
@@ -179,9 +198,11 @@ var getWeather = function (city) {
                 windSpeed: data.current.wind_speed,
                 uvIndex: data.current.uvi
             };
-        
-            console.log(weatherObj);
+            
+            var forecastArray = createFiveDayArray(data);
+
             createCurrentEl(weatherObj);
+            createFiveDayEl(forecastArray);
         })
 }
 
