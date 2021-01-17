@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <!-- google fonts -->
+    <!-- lcustom css -->
     <link rel="stylesheet" href="./assets/css/style.css" />
     
     <title>My Weather Dashboard</title>
@@ -15,11 +17,11 @@
     </header>
     <main>
         <div class="col-1">
-            <div class="search">
+            <form class="search">
                 <label for="search-input">Search for a City:</label><br>
-                <input name="search-input" id="search-input" />
-                <button class="btn" id="search-btn">search</button>
-            </div>
+                <input name="search-input" id="search-input" placeholder="Enter City"/>
+                <button class="btn" id="search-btn"><i class="fas fa-search"></i></button>
+            </form>
             <div class="popular-cities">
                 <ul class="city-list"></ul>
             </div>

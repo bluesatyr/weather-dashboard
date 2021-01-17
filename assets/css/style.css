@@ -39,7 +39,7 @@ main {
     background-color: #F8F9FA;
     display: flex;
     flex-direction: column;
-    width: 33%;
+    width: 30%;
     padding: 20px 20px;
 }
 
@@ -55,16 +55,20 @@ main {
 
 .search input {
     flex: 2;
+    margin-bottom: 10px;
 }
 
 .search .btn {
-    flex: 1;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    width: 60px;
+    border: none;
+    margin-bottom: 10px;
 }
 
 .search label, .search input, .search .btn {
-    height: 30px;
+    height: 45px;
     font-size: 24px;
-    margin-top: 10px;
 }
 
 #search-input {
@@ -79,12 +83,14 @@ main {
 
 .previous {
     list-style: none;
-    width: 200px;
+    width: 280px;
     height: 40px;
-    padding: 15px;
+    padding: 10px;
     border: 2px solid black;
     margin-top: 5px;
     border-radius: 5px; 
+    vertical-align: top;
+    text-align: center;
 }
 
 .previous:hover {
@@ -96,7 +102,7 @@ main {
     background-color: #FFFFFF;
     display: flex;
     flex-direction: column;
-    width: 67%;
+    width: 70%;
     padding: 20px 20px;
     align-content: flex-start;
 }
@@ -141,7 +147,7 @@ main {
     background-color: #007BFF;
     color: white;
     height: 160px;
-    width: 120px;
+    width: 18%;
     border-radius: 5px;
     margin-right: 10px;
     margin-top: 10px;
@@ -183,4 +189,32 @@ main {
 .uv-extreme {
     background-color: var(--extreme);
     color: white;
+}
+
+/* Mobile Styles */
+@media screen and (max-width: 1000px) {
+    .card {
+        width: 45%;
+    }
+    .previous {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 695px) {
+    main {
+        flex-direction: column;
+    }
+    .col-1, .col-2 {
+        width: 100%;
+    }
+    .city-list {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between
+    }
+    .previous {
+        width: 48%;
+    }
 }

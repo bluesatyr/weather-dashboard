@@ -96,7 +96,7 @@ var createFiveDayEl = function (fiveDay) {
     var results = document.querySelector('.results');
     var fiveDayForecast = document.createElement('div');
     fiveDayForecast.className = 'five-day'
-    fiveDayForecast.innerHTML = "<h2>5-Day Forecast:</h2><div class='card-container'><div>"
+    fiveDayForecast.innerHTML = "<h2>5-Day Forecast:</h2><div class='card-container'></div>"
     results.appendChild(fiveDayForecast);
     var cardContainer = document.querySelector('.card-container');
     
@@ -167,13 +167,16 @@ var getWeather = function (city) {
 // submit user input to fetch and render City's weather and forecast
 var searchHandler = function(event) {
     event.preventDefault();
+    var searchForm = document.querySelector('.search');
     var cityInput = document.querySelector('#search-input').value;
     city = cityInput.toLowerCase().trim();
     previousCities.push(city);
     saveCities(previousCities);
     getWeather(city);
+    searchForm.reset();
 };
 
+// search by clicking on previous/popular cities item
 var previousSearch = function(event){
     var cityEl = event.target.closest('li');
     var city = cityEl.textContent;
@@ -184,4 +187,4 @@ getPreviousCities();
 
 // event handlers
 document.querySelector('.city-list').addEventListener('click', previousSearch);
-document.querySelector('#search-btn').addEventListener('click', searchHandler);
+document.querySelector('.search').addEventListener('submit', searchHandler);
