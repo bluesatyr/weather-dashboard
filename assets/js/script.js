@@ -1,5 +1,5 @@
 // global variables
-var locApiUrl = "http://api.openweathermap.org/data/2.5/weather?q="
+var locApiUrl = "https://api.openweathermap.org/data/2.5/weather?q="
 var oneCallUrl = "https://api.openweathermap.org/data/2.5/onecall?";
 var city = "";
 var apiKey = "587e6a88adff4eb1878a93d9f751bd59";
